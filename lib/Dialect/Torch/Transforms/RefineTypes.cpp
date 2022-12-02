@@ -1111,7 +1111,7 @@ void TypeAnalysis::visitOperation(Operation *op,
     incorporateKnowledge(embedding.getResult(), knowledge);
     return;
   }
-  
+
   if (isa<Aten_EmbeddingBagOp, AtenEmbeddingBagPaddingIdxOp>(op)) {
     visitAtenEmbeddingBagOp(op);
     return;
@@ -1153,6 +1153,19 @@ void TypeAnalysis::visitOperation(Operation *op,
                                    defaultDtype);
     visitReductionAlongDimIntListOp(vectorNorm, vectorNorm.dim(),
                                     vectorNorm.keepdim(), dtype, operands);
+    return;
+  }
+
+  if (isa<AtenFftFftOp>(op)) {
+    Type defaultDtype = operands[0]->getValue().dtype;
+    auto resultKnowledge =
+        ValueKnowledge::getTensorPessimisticValueState(op->getContext());
+    if (defaultDtype.isa<mlir::ComplexType>()) {
+      resultKnowledge.dtype = defaultDtype;
+    } else {
+      resultKnowledge.dtype = mlir::ComplexType::get(defaultDtype);
+    }
+    incorporateKnowledge(op->getResult(0), resultKnowledge);
     return;
   }
 

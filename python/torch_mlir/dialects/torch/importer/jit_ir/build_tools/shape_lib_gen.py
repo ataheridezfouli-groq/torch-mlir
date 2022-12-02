@@ -1216,6 +1216,9 @@ def aten〇frobenius_norm〇dim(self: List[int], dim: List[int], keepdim: bool =
 def aten〇upsample_nearest2d〇vec(input: List[int], output_size: Optional[List[int]], scale_factors: Optional[List[float]]) -> List[int]:
     return upstream_shape_functions.upsample_nearest2d(input, output_size, scale_factors)
 
+def aten〇fft_fft(self: List[int], n: Optional[int] = None, dim: int = -1, norm: Optional[str] = None) -> List[int]:
+    return self
+
 # ==============================================================================
 # Shape library generator main().
 # ==============================================================================

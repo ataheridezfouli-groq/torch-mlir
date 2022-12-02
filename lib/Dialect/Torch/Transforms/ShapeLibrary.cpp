@@ -7029,6 +7029,9 @@ StringRef mlir::torch::Torch::getShapeLibrary() {
 "    %0 = call @__torch__.torch.jit._shape_functions.upsample_nearest2d(%arg0, %arg1, %arg2) : (!torch.list<int>, !torch.optional<list<int>>, !torch.optional<list<float>>) -> !torch.list<int>\n"
 "    return %0 : !torch.list<int>\n"
 "  }\n"
+"  func.func @\"__torch_mlir_shape_fn.aten.fft_fft\"(%arg0: !torch.list<int>, %arg1: !torch.optional<int>, %arg2: !torch.int, %arg3: !torch.optional<str>) -> !torch.list<int> {\n"
+"    return %arg0 : !torch.list<int>\n"
+"  }\n"
 "}\n"
 "";
   // clang-format on

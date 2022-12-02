@@ -346,3 +346,33 @@ func.func @torch.aten.tensor$specified_dtype(%t: !torch.list<list<float>>) -> !t
   %ret = torch.aten.tensor %t, %int4, %none, %false : !torch.list<list<float>>, !torch.int, !torch.none, !torch.bool -> !torch.tensor
   return %ret : !torch.tensor
 }
+
+// -----
+// CHECK-LABEL:   func.func @torch.aten.fft_fft$complexf32_result(
+// CHECK-SAME:                            %[[ARG0:.*]]: !torch.vtensor<[?,3],f32>
+// CHECK:           %[[NONE:.*]] = torch.constant.none
+// CHECK:           %[[INT_NEG1:.*]] = torch.constant.int -1
+// CHECK:           %[[FFT:.*]] = torch.aten.fft_fft %[[ARG0]], %[[NONE]], %[[INT_NEG1]], %[[NONE]] : !torch.vtensor<[?,3],f32>, !torch.none, !torch.int, !torch.none -> !torch.tensor<*,complex<f32>>
+// CHECK:           %[[CAST:.*]] = torch.tensor_static_info_cast %[[FFT]] : !torch.tensor<*,complex<f32>> to !torch.tensor
+// CHECK:           return %[[CAST]] : !torch.tensor
+func.func @torch.aten.fft_fft$complexf32_result(%arg0: !torch.vtensor<[?,3],f32>) -> !torch.tensor {
+  %none = torch.constant.none
+  %int-1 = torch.constant.int -1
+  %0 = torch.aten.fft_fft %arg0, %none, %int-1, %none : !torch.vtensor<[?,3],f32>, !torch.none, !torch.int, !torch.none -> !torch.tensor
+  return %0 : !torch.tensor
+}
+
+// -----
+// CHECK-LABEL:   func.func @torch.aten.fft_fft$complexsi64_operandresult(
+// CHECK-SAME:                            %[[ARG0:.*]]: !torch.vtensor<[?,3],complex<si64>>
+// CHECK:           %[[NONE:.*]] = torch.constant.none
+// CHECK:           %[[INT_NEG1:.*]] = torch.constant.int -1
+// CHECK:           %[[FFT:.*]] = torch.aten.fft_fft %[[ARG0]], %[[NONE]], %[[INT_NEG1]], %[[NONE]] : !torch.vtensor<[?,3],complex<si64>>, !torch.none, !torch.int, !torch.none -> !torch.tensor<*,complex<si64>>
+// CHECK:           %[[CAST:.*]] = torch.tensor_static_info_cast %[[FFT]] : !torch.tensor<*,complex<si64>> to !torch.tensor
+// CHECK:           return %[[CAST]] : !torch.tensor
+func.func @torch.aten.fft_fft$complexsi64_operandresult(%arg0: !torch.vtensor<[?,3],complex<si64>>) -> !torch.tensor {
+  %none = torch.constant.none
+  %int-1 = torch.constant.int -1
+  %0 = torch.aten.fft_fft %arg0, %none, %int-1, %none : !torch.vtensor<[?,3],complex<si64>>, !torch.none, !torch.int, !torch.none -> !torch.tensor
+  return %0 : !torch.tensor
+}

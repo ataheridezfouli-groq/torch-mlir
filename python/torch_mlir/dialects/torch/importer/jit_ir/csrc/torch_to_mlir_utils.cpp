@@ -54,6 +54,8 @@ static MlirType getMlirTypeForTorchScalarTypeRaw(MlirContext context,
     return torchMlirTorchQInt8TypeGet(context);
   case ScalarType::QUInt8:
     return torchMlirTorchQUInt8TypeGet(context);
+  case ScalarType::ComplexFloat:
+    return mlirComplexTypeGet(mlirF32TypeGet(context));
   default: {
     return {nullptr};
   }
